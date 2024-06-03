@@ -1,8 +1,9 @@
 #include <iostream>
 #include "game.h"
+#include "ui.h"
+using namespace std;
 
 int main() {
-    Game game(4,3);
-    game.printBoard();
+    ui();
     return 0;
 }
