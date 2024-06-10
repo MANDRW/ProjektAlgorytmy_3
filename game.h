@@ -3,19 +3,20 @@
 #include <vector>
 #include "minmax.h"
 #include "element.h"
+using namespace std;
 class Game {
 private:
-    std::vector<std::vector<Element>> board;
     int size;
     int capacity;
     int win;
 
 public:
+    std::vector<std::vector<Element>> board;
     Game(int size, int win);
     void printBoard(bool s);
     int isWin();
     void humanMove(int x, int y);
-    void computerMove();
+    void computerMove(pair<int, int> move);
 
 };
 #endif

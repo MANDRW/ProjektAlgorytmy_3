@@ -7,9 +7,13 @@
 #include <string>
 #include<vector>
 #include "game.h"
+#include "element.h"
+#include "minmax.h"
 using namespace std;
 
 void ui() {
+    srand(time(NULL));
+
     while (true) {
         int number, mode;//mode==type of stucture, number==operation
         Game *game;
@@ -28,6 +32,7 @@ void ui() {
                 cin >> size;
                 cout << endl << "Podaj ilosc znakow w rzedzie do wygranej: ";
                 cin >> win;
+                MinMax minMax(win);
                 game = new Game(size, win);
                 cout<<"Wybierz znak ktorym chcesz grac: "<<endl;
                 cout<<"KOLKO [0]"<<endl;
@@ -36,15 +41,15 @@ void ui() {
                 cin>>s;
                 cout<<endl;
                 int l=rand()%2;
+                int x, y;
                 if(l==0){
                     cout<<"Ruch komputera"<<endl;
-                    game->computerMove();
+                    game->computerMove(minMax.findBestMove(game->board));//do zmiany
                     game->printBoard(s);
                 }
-                game->printBoard(s);
+                else game->printBoard(s);
                 while (start == 1) {
                     cout << "Twoj ruch" << endl;
-                    int x, y;
                     cout << "Podaj wspolrzedne x: ";
                     cin >> y;
                     cout << "Podaj wspolrzedne y: ";
@@ -52,23 +57,23 @@ void ui() {
                     game->humanMove(x-1, y-1);
                     game->printBoard(s);
                     if (game->isWin() == 1) {
-                        cout << "WYGRALES" << endl;
+                        cout << "WYGRALES" << endl<<endl;
                         start = 0;
                         break;
                     } else if (game->isWin() == 2) {
-                        cout << "REMIS" << endl;
+                        cout << "REMIS" << endl<<endl;
                         start = 0;
                         break;
                     }
                     cout << "Ruch komputera" << endl;
-                    game->computerMove();
+                    game->computerMove(minMax.findBestMove(game->board));//do zmiany
                     game->printBoard(s);
                     if (game->isWin() == 1) {
-                        cout << "WYGRAL KOMPUTER" << endl;
+                        cout << "PRZEGRALES" << endl<<endl;
                         start = 0;
                         break;
                     } else if (game->isWin() == 2) {
-                        cout << "REMIS" << endl;
+                        cout << "REMIS" << endl<<endl;
                         start = 0;
                         break;
                     }

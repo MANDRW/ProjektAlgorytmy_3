@@ -1,12 +1,21 @@
 #ifndef PROJEKTALGORYTMY_3_MINMAX_H
 #define PROJEKTALGORYTMY_3_MINMAX_H
+
 #include <vector>
 #include "element.h"
 
 class MinMax {
 public:
-    int evaluateBoard(std::vector<std::vector<Element>>& board, int size, int win);
-    int minimax(std::vector<std::vector<Element>>& board, int depth, bool isMax, int size, int win);
-    std::pair<int,int> findBestMove(std::vector<std::vector<Element>>& board, int size, int win);
+    MinMax(int winCondition); // Constructor with win condition
+    std::pair<int, int> findBestMove(std::vector<std::vector<Element>>& board);
+    ~MinMax();
+
+private:
+    int min_max(std::vector<std::vector<Element>>& board, int depth, bool isMax);
+    bool isMovesLeft( std::vector<std::vector<Element>>& board);
+    int evaluate(std::vector<std::vector<Element>>& board);
+
+    int win;
 };
-#endif
+
+#endif // PROJEKTALGORYTMY_3_MINMAX_H
