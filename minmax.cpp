@@ -20,66 +20,79 @@ bool MinMax::isMovesLeft(vector<vector<Element>>& board) {
 
 int MinMax::evaluate(vector<vector<Element>>& board) {
     int score = 0;
-    int boardSize = board.size();
-
-    // Define weights
-    const int win = 10000;
-    const int off = 1000;
-    const int def = 500;
-
-    // Check rows and columns
-    for (int i = 0; i < boardSize; i++) {
-        for (int j = 0; j < boardSize - win + 1; j++) {
-            // Rows
-            int computerCount = 0, humanCount = 0;
+    // Check rows
+    for (int i = 0; i < board.size(); i++) {
+        for (int j = 0; j <= board.size() - win; j++) {
+            int computerCount = 0;
+            int humanCount = 0;
             for (int k = 0; k < win; k++) {
-                if (board[i][j + k] == COMPUTER) computerCount++;
-                if (board[i][j + k] == HUMAN) humanCount++;
+                if (board[i][j + k] == COMPUTER) {
+                    computerCount++;
+                } else if (board[i][j + k] == HUMAN) {
+                    humanCount++;
+                }
             }
-            if (computerCount == win) return win;
-            if (humanCount == win) return -win;
-            if (computerCount > 0 && humanCount == 0) score += computerCount * off;
-            if (humanCount > 0 && computerCount == 0) score -= humanCount * def;
-
-            // Columns
-            computerCount = 0, humanCount = 0;
-            for (int k = 0; k < win; k++) {
-                if (board[j + k][i] == COMPUTER) computerCount++;
-                if (board[j + k][i] == HUMAN) humanCount++;
-            }
-            if (computerCount == win) return win;
-            if (humanCount == win) return -win;
-            if (computerCount > 0 && humanCount == 0) score += computerCount * off;
-            if (humanCount > 0 && computerCount == 0) score -= humanCount * def;
+            if (computerCount == win) return 10;
+            if (humanCount == win) return -10;
+            if (computerCount == win - 1 && humanCount == 0) score += 5;
+            if (humanCount == win - 1 && computerCount == 0) score -= 5;
         }
     }
 
-    // Check diagonals
-    for (int i = 0; i < boardSize - win + 1; i++) {
-        for (int j = 0; j < boardSize - win + 1; j++) {
-            int computerCount = 0, humanCount = 0;
+    // Check columns
+    for (int i = 0; i <= board.size() - win; i++) {
+        for (int j = 0; j < board.size(); j++) {
+            int computerCount = 0;
+            int humanCount = 0;
             for (int k = 0; k < win; k++) {
-                if (board[i + k][j + k] == COMPUTER) computerCount++;
-                if (board[i + k][j + k] == HUMAN) humanCount++;
+                if (board[i + k][j] == COMPUTER) {
+                    computerCount++;
+                } else if (board[i + k][j] == HUMAN) {
+                    humanCount++;
+                }
             }
-            if (computerCount == win) return win;
-            if (humanCount == win) return -win;
-            if (computerCount > 0 && humanCount == 0) score += computerCount * off;
-            if (humanCount > 0 && computerCount == 0) score -= humanCount * def;
+            if (computerCount == win) return 10;
+            if (humanCount == win) return -10;
+            if (computerCount == win - 1 && humanCount == 0) score += 5;
+            if (humanCount == win - 1 && computerCount == 0) score -= 5;
         }
     }
 
-    for (int i = win - 1; i < boardSize; i++) {
-        for (int j = 0; j < boardSize - win + 1; j++) {
-            int computerCount = 0, humanCount = 0;
+    // Check main diagonal
+    for (int i = 0; i <= board.size() - win; i++) {
+        for (int j = 0; j <= board.size() - win; j++) {
+            int computerCount = 0;
+            int humanCount = 0;
             for (int k = 0; k < win; k++) {
-                if (board[i - k][j + k] == COMPUTER) computerCount++;
-                if (board[i - k][j + k] == HUMAN) humanCount++;
+                if (board[i + k][j + k] == COMPUTER) {
+                    computerCount++;
+                } else if (board[i + k][j + k] == HUMAN) {
+                    humanCount++;
+                }
             }
-            if (computerCount == win) return win;
-            if (humanCount == win) return -win;
-            if (computerCount > 0 && humanCount == 0) score += computerCount * off;
-            if (humanCount > 0 && computerCount == 0) score -= humanCount * def;
+            if (computerCount == win) return 10;
+            if (humanCount == win) return -10;
+            if (computerCount == win - 1 && humanCount == 0) score += 5;
+            if (humanCount == win - 1 && computerCount == 0) score -= 5;
+        }
+    }
+
+    // Check anti-diagonal
+    for (int i = win - 1; i < board.size(); i++) {
+        for (int j = 0; j <= board.size() - win; j++) {
+            int computerCount = 0;
+            int humanCount = 0;
+            for (int k = 0; k < win; k++) {
+                if (board[i - k][j + k] == COMPUTER) {
+                    computerCount++;
+                } else if (board[i - k][j + k] == HUMAN) {
+                    humanCount++;
+                }
+            }
+            if (computerCount == win) return 10;
+            if (humanCount == win) return -10;
+            if (computerCount == win - 1 && humanCount == 0) score += 5;
+            if (humanCount == win - 1 && computerCount == 0) score -= 5;
         }
     }
 
@@ -87,13 +100,12 @@ int MinMax::evaluate(vector<vector<Element>>& board) {
 }
 
 
-
 int MinMax::min_max(vector<vector<Element>>& board, int depth, bool isMax, int alpha, int beta) {
     int score = evaluate(board);
 
     // Terminal states
-    if (score == 10000) return score - depth; // Prefer faster wins
-    if (score == -10000) return score + depth; // Prefer slower losses
+    if (score == 10) return score - depth; // Prefer faster wins
+    if (score == -10) return score + depth; // Prefer slower losses
     if (!isMovesLeft(board)) return 0; // Draw
 
     if (depth >= user_d) return score; // Depth limit reached
