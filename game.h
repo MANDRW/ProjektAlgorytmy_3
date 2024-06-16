@@ -4,12 +4,11 @@
 #include "minmax.h"
 #include "element.h"
 using namespace std;
-class Game {
+class Game {//class with board printing, winning checking and human and computer moves
 private:
-    int size;
-    int capacity;
-    int win;
-
+    int size;//quantity of moves
+    int capacity;//capacity of board
+    int win;//strike for win
 public:
     std::vector<std::vector<Element>> board;
     Game(int size, int win);

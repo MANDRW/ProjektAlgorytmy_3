@@ -5,7 +5,7 @@
 using namespace std;
 
 
-Game::Game(int size, int win) : size(size),capacity(0), win(win),board(size,vector<Element>(size,EMPTY)) {}
+Game::Game(int size, int win) : size(size),capacity(0), win(win),board(size,vector<Element>(size,EMPTY)) {}//constructor
 
 int Game::isWin() {
     for(int i=0;i<size;i++){
@@ -69,7 +69,7 @@ int Game::isWin() {
 void Game::printBoard(bool s) {
     char c_s;
     char h_s;
-    if(s==0){
+    if(s==0){//setting signs
         h_s='O';
         c_s='X';
     }
@@ -118,18 +118,12 @@ void Game::humanMove(int x, int y) {
         board[x][y] = HUMAN;
         capacity++;
     }
-    else {
-        cout << "Nieprawidlowy ruch" << endl;
-    }
 }
 
 void Game::computerMove(pair<int,int> move) {
     if (board[move.first][move.second] == EMPTY) {
         board[move.first][move.second] = COMPUTER;
         capacity++;
-    }
-    else {
-        cout << "Nieprawidlowy ruch" << endl;
     }
 }
 

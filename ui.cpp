@@ -2,8 +2,6 @@
 #include<iostream>
 #include<cstdlib>
 #include<ctime>
-#include<cstdio>
-#include<fstream>
 #include <string>
 #include<vector>
 #include "game.h"
@@ -27,34 +25,60 @@ void ui() {
         bool s;
         switch (mode) {//making structure
             case 1: {
-                int size, win;
-                cout << "Podaj rozmiar planszy: ";
-                cin >> size;
-                cout << endl << "Podaj ilosc znakow w rzedzie do wygranej: ";
-                cin >> win;
-                MinMax minMax(win);
+                int size=0, win=0,depth=0;
+                while(size<1) {
+                    cout << "Podaj rozmiar planszy: ";
+                    cin >> size;
+                    if(size<1) cout<<"Podaj liczbe dodatnia"<<endl;
+                }
+                while(win<3) {
+                    cout << "Podaj ilosc znakow w rzedzie do wygranej: ";
+                    cin >> win;
+                    if(win<3) cout<<"Minimalna liczba to 3"<<endl;
+                }
+                while (depth < 1){
+                    cout << endl << "Podaj glebokosc dzialania algorytmu: ";
+                    cin >> depth;
+                    if (depth < 1) cout << "Podaj liczbe dodatnia" << endl;
+                }
+
+                MinMax minMax(win, depth);
                 game = new Game(size, win);
+                int t;
                 cout<<"Wybierz znak ktorym chcesz grac: "<<endl;
                 cout<<"KOLKO [0]"<<endl;
                 cout<<"KRZYZYK [1]"<<endl;
                 cout<<"Wybor: ";
-                cin>>s;
+                cin>>t;
+                s=bool(t%2);
                 cout<<endl;
                 int l=rand()%2;
-                int x, y;
+                int x=0, y=0;
                 if(l==0){
-                    cout<<"Ruch komputera"<<endl;
-                    game->computerMove(minMax.findBestMove(game->board));//do zmiany
+                    cout<<"Ruch komputera"<<endl<<endl;
+                    game->computerMove(minMax.findBestMove(game->board));
                     game->printBoard(s);
                 }
                 else game->printBoard(s);
                 while (start == 1) {
-                    cout << "Twoj ruch" << endl;
-                    cout << "Podaj wspolrzedne x: ";
-                    cin >> y;
-                    cout << "Podaj wspolrzedne y: ";
-                    cin >> x;
+                    while(x<=0 or x>size and y<=0 or y>size){
+                        cout<<endl<<"Podaj wspolrzedne x: ";
+                        cin>>y;
+                        cout<<"Podaj wspolrzedne y: ";
+                        cin>>x;
+                        cout<<endl;
+                        if(x<=0 or x>size or y<=0 or y>size) {
+                            cout<<"Takie pole nie istnieje"<<endl;
+                        }
+                        else if (game->board[x-1][y-1]!=EMPTY){
+                            cout<<"Zajete pole"<<endl;
+                            x=0;
+                            y=0;
+                        }
+                    }
                     game->humanMove(x-1, y-1);
+                    x=0;
+                    y=0;
                     game->printBoard(s);
                     if (game->isWin() == 1) {
                         cout << "WYGRALES" << endl<<endl;
@@ -65,8 +89,8 @@ void ui() {
                         start = 0;
                         break;
                     }
-                    cout << "Ruch komputera" << endl;
-                    game->computerMove(minMax.findBestMove(game->board));//do zmiany
+                    cout << "Ruch komputera" << endl<<endl;
+                    game->computerMove(minMax.findBestMove(game->board));
                     game->printBoard(s);
                     if (game->isWin() == 1) {
                         cout << "PRZEGRALES" << endl<<endl;

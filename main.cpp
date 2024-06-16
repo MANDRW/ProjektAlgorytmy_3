@@ -4,6 +4,6 @@
 using namespace std;
 
 int main() {
-    ui();
+    ui();//ui funtion
     return 0;
 }
