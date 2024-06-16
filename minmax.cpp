@@ -119,7 +119,7 @@ int MinMax::min_max(vector<vector<Element>>& board, int depth, bool isMax, int a
                     best = max(best, min_max(board, depth + 1, !isMax, alpha, beta));
                     board[i][j] = EMPTY;
                     alpha = max(alpha, best);
-                    if (beta <= alpha) return best; // Alpha-beta pruning
+                    if (beta <= alpha) break; // Alpha-beta pruning
                 }
             }
         }
@@ -133,7 +133,7 @@ int MinMax::min_max(vector<vector<Element>>& board, int depth, bool isMax, int a
                     best = min(best, min_max(board, depth + 1, !isMax, alpha, beta));
                     board[i][j] = EMPTY;
                     beta = min(beta, best);
-                    if (beta <= alpha) return best; // Alpha-beta pruning
+                    if (beta <= alpha) break; // Alpha-beta pruning
                 }
             }
         }
