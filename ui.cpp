@@ -69,6 +69,8 @@ void ui() {
                         cout<<endl;
                         if(x<=0 or x>size or y<=0 or y>size) {
                             cout<<"Takie pole nie istnieje"<<endl;
+                            x=0;
+                            y=0;
                         }
                         else if (game->board[x-1][y-1]!=EMPTY){
                             cout<<"Zajete pole"<<endl;
