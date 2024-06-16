@@ -146,7 +146,11 @@ int MinMax::min_max(vector<vector<Element>>& board, int depth, bool isMax, int a
 pair<int, int> MinMax::findBestMove(vector<vector<Element>>& board) {
     int bestVal = numeric_limits<int>::min();
     pair<int, int> bestMove = {-1, -1};
-
+    bool auto_d=false;
+    if(user_d==0) {
+        auto_d=true;
+        user_d=100/(100-board.size());
+    }
     for (int i = 0; i < board.size(); i++) {
         for (int j = 0; j < board.size(); j++) {
             if (board[i][j] == EMPTY) {
@@ -161,7 +165,7 @@ pair<int, int> MinMax::findBestMove(vector<vector<Element>>& board) {
             }
         }
     }
-
+    if(auto_d== true )user_d=100/(100-board.size());
     return bestMove;
 }
 

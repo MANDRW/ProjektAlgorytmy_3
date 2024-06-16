@@ -36,12 +36,10 @@ void ui() {
                     cin >> win;
                     if(win<3) cout<<"Minimalna liczba to 3"<<endl;
                 }
-                while (depth < 1){
-                    cout << endl << "Podaj glebokosc dzialania algorytmu: ";
-                    cin >> depth;
-                    if (depth < 1) cout << "Podaj liczbe dodatnia" << endl;
-                }
 
+                cout << endl << "Podaj glebokosc dzialania algorytmu (0 - auto-dobieranie): ";
+                cin >> depth;
+                if (depth < 1) cout << "autodobieranie" << endl;
                 MinMax minMax(win, depth);
                 game = new Game(size, win);
                 int t;
