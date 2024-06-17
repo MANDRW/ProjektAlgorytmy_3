@@ -20,8 +20,7 @@ bool MinMax::isMovesLeft(vector<vector<Element>>& board) {
 
 int MinMax::evaluate(vector<vector<Element>>& board) {
     int score = 0;
-    // Check rows
-    for (int i = 0; i < board.size(); i++) {
+    for (int i = 0; i < board.size(); i++) { // checking rows
         for (int j = 0; j <= board.size() - win; j++) {
             int computerCount = 0;
             int humanCount = 0;
@@ -39,8 +38,7 @@ int MinMax::evaluate(vector<vector<Element>>& board) {
         }
     }
 
-    // Check columns
-    for (int i = 0; i <= board.size() - win; i++) {
+    for (int i = 0; i <= board.size() - win; i++) {//checking columns
         for (int j = 0; j < board.size(); j++) {
             int computerCount = 0;
             int humanCount = 0;
@@ -58,8 +56,7 @@ int MinMax::evaluate(vector<vector<Element>>& board) {
         }
     }
 
-    // Check main diagonal
-    for (int i = 0; i <= board.size() - win; i++) {
+    for (int i = 0; i <= board.size() - win; i++) {//checking diagonal
         for (int j = 0; j <= board.size() - win; j++) {
             int computerCount = 0;
             int humanCount = 0;
@@ -77,8 +74,7 @@ int MinMax::evaluate(vector<vector<Element>>& board) {
         }
     }
 
-    // Check anti-diagonal
-    for (int i = win - 1; i < board.size(); i++) {
+    for (int i = win - 1; i < board.size(); i++) {//checking second diagonal
         for (int j = 0; j <= board.size() - win; j++) {
             int computerCount = 0;
             int humanCount = 0;
@@ -101,14 +97,11 @@ int MinMax::evaluate(vector<vector<Element>>& board) {
 
 
 int MinMax::min_max(vector<vector<Element>>& board, int depth, bool isMax, int alpha, int beta) {
-    int score = evaluate(board);
-
-    // Terminal states
-    if (score == 10) return score - depth; // Prefer faster wins
-    if (score == -10) return score + depth; // Prefer slower losses
-    if (!isMovesLeft(board)) return 0; // Draw
-
-    if (depth >= user_d) return score; // Depth limit reached
+    int score = evaluate(board);//evaluating weight of the board
+    if (score == 10) return score - depth;
+    if (score == -10) return score + depth;
+    if (!isMovesLeft(board)) return 0;
+    if (depth >= user_d) return score;//depth limit
 
     if (isMax) {
         int best = numeric_limits<int>::min();
@@ -116,10 +109,10 @@ int MinMax::min_max(vector<vector<Element>>& board, int depth, bool isMax, int a
             for (int j = 0; j < board[i].size(); j++) {
                 if (board[i][j] == EMPTY) {
                     board[i][j] = COMPUTER;
-                    best = max(best, min_max(board, depth + 1, !isMax, alpha, beta));
+                    best = max(best, min_max(board, depth + 1, !isMax, alpha, beta));//maximizing
                     board[i][j] = EMPTY;
                     alpha = max(alpha, best);
-                    if (beta <= alpha) break; // Alpha-beta pruning
+                    if (beta <= alpha) break; // Alpha-beta
                 }
             }
         }
@@ -130,7 +123,7 @@ int MinMax::min_max(vector<vector<Element>>& board, int depth, bool isMax, int a
             for (int j = 0; j < board[i].size(); j++) {
                 if (board[i][j] == EMPTY) {
                     board[i][j] = HUMAN;
-                    best = min(best, min_max(board, depth + 1, !isMax, alpha, beta));
+                    best = min(best, min_max(board, depth + 1, !isMax, alpha, beta));//minimizing
                     board[i][j] = EMPTY;
                     beta = min(beta, best);
                     if (beta <= alpha) break; // Alpha-beta pruning
@@ -144,12 +137,12 @@ int MinMax::min_max(vector<vector<Element>>& board, int depth, bool isMax, int a
 
 
 pair<int, int> MinMax::findBestMove(vector<vector<Element>>& board) {
-    int bestVal = numeric_limits<int>::min();
-    pair<int, int> bestMove = {-1, -1};
-    bool auto_d=false;
+    int bestVal = numeric_limits<int>::min();//-2147483648
+    pair<int, int> bestMove = {-1, -1};//the worst move
+    bool auto_d=false;//without auto-depth
     if(user_d==0) {
-        auto_d=true;
-        user_d=100/(100-board.size());
+        auto_d=true;//with auto-depth
+        user_d=100/(100-board.size());//auto-depht function
     }
     for (int i = 0; i < board.size(); i++) {
         for (int j = 0; j < board.size(); j++) {
@@ -165,7 +158,7 @@ pair<int, int> MinMax::findBestMove(vector<vector<Element>>& board) {
             }
         }
     }
-    if(auto_d== true )user_d=100/(100-board.size());
+    if(auto_d== true)user_d=100/(100-board.size());//auto-depth update
     return bestMove;
 }
 
