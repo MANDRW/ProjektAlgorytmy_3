@@ -26,15 +26,15 @@ void ui() {
         switch (mode) {//making structure
             case 1: {
                 int size = 0, win = 0, depth = 0;
-                while(size < 1) {
+                while(size < 3 ) {
                     cout << "Podaj rozmiar planszy: ";
                     cin >> size;
-                    if(size < 1) cout << "Podaj liczbe dodatnia"<< endl;
+                    if(size < 3) cout << "Podaj liczbe dodatnia, minimum 3"<< endl;
                 }
                 while(win < 3) {
                     cout << "Podaj ilosc znakow w rzedzie do wygranej: ";
                     cin >> win;
-                    if (win < 3 or win > size) {
+                    if (win < 3 or win >size) {
                         cout << "Minimalna liczba to 3, maksymalna to rozmiar planszy" << endl;
                         win = 0;
                     }
