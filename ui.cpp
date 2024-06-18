@@ -34,7 +34,10 @@ void ui() {
                 while(win < 3) {
                     cout << "Podaj ilosc znakow w rzedzie do wygranej: ";
                     cin >> win;
-                    if(win < 3) cout<<"Minimalna liczba to 3"<< endl;
+                    if (win < 3 or win > size) {
+                        cout << "Minimalna liczba to 3, maksymalna to rozmiar planszy" << endl;
+                        win = 0;
+                    }
                 }
 
                 cout << endl << "Podaj glebokosc dzialania algorytmu (0 - auto-dobieranie): ";
